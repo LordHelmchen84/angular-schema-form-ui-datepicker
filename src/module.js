@@ -1,4 +1,5 @@
 angular.module('angularSchemaFormUiDatepicker', [
+  'ui.bootstrap',
   'schemaForm',
   'templates'
 ]).config(function(schemaFormDecoratorsProvider, sfBuilderProvider) {
