@@ -1,11 +1,15 @@
-<div>
+<div
+    class="form-group {{::form.htmlClass + ' ' + idClass}} schema-form-ui-datepicker"
+    ng-class="{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}">
     <!-- Surrounding DIV for sfField builder to add a sfField directive to. -->
-    <!--<h2>{{form.myOwnFormOption}}</h2>-->
+    <h2>{{form.dateOptions}}</h2>
     <!-- Create your own form options -->
 
-    <label>{{form.title}}</label>
+    <label class="control-label {{::form.labelHtmlClass}}" ng-show="showTitle()" for="{{::fieldId(true, false)}}">
+        {{form.title}}
+    </label>
 
-    <ui-datepicker ng-model="ngModel" sf-field-model schema-validate="form"></ui-datepicker>
+    <ui-datepicker datepicker-options="{{form.dateOptions}}" datename="{{::fieldId(true, false)}}" ng-disabled="form.readonly" sf-changed="form" ng-model="ngModel" sf-field-model schema-validate="form"></ui-datepicker>
 
     <!-- sf-field-model let's the ngModel builder know that you want a ng-model that matches against the form key here -->
     <!-- schema-validate="form" validates the form against the schema -->

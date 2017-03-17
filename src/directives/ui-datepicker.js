@@ -1,5 +1,5 @@
-angular.module('angularSchemaFormUiDatepicker').directive('uiDatepicker', function() {
-    var template = '<div class="input-group"><input type="text" class="form-control" uib-datepicker-popup ng-model="ngModel" is-open="opened" ng-required="true"  /><span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button></span></div>';
+angular.module('angularSchemaFormUiDatepicker').directive('uiDatepicker', function($log) {
+    var template = '<div class="input-group"><input datepicker-options="dateOptions" type="text" class="form-control" uib-datepicker-popup="{{dateOptions.dateFormat}}" ng-model="ngModel" is-open="opened" ng-required="true"  /><span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button></span></div>';
     return {
         restrict: 'E',
         require: 'ngModel',
@@ -8,6 +8,12 @@ angular.module('angularSchemaFormUiDatepicker').directive('uiDatepicker', functi
         },
         template: template, //'<input type="text" class="form-control" ng-model="modelValue" ng-blur="updateModel(modelValue)"></input>',
         link: function(scope, element, attrs, ngModel) {
+
+            //$log.debug(element);
+            //$log.debug(attrs);
+
+            scope.dateOptions = angular.fromJson(attrs.datepickerOptions);
+            //$log.debug(scope.dateOptions);
             scope.modelValue = ngModel.$viewValue;
 
             scope.updateModel = function(modelValue) {

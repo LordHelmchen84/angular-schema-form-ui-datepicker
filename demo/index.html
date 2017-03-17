@@ -20,12 +20,10 @@
                 $scope.schema = {
                     "type": "object",
                     "properties": {
-                        "name": {
+                        "date": {
                             "type": "string",
-                            "title": "Name",
-                            "description": "Name or alias",
-                            "maxLength": 10,
-                            "minLength": 2,
+                            "title": "Date",
+                            "description": "A date",
                             "required": true
                         },
                         "date2": {
@@ -49,9 +47,14 @@
 
                 $scope.form = [
                     {
-                        "type": "angular-schema-form-ui-datepicker",
+                        "type": "datepicker",
                         "key": "name",
-                        "myOwnFormOption": "Hello world!"
+                        "myOwnFormOption": "Hello world!",
+                        "dateOptions": {
+                            "maxDate": new Date(2017, 3, 31),
+                            "minDate": new Date(),
+                            "dateFormat": "shortDate"
+                        }
                     }, {
                         "type": "angular-schema-form-ui-datepicker",
                         "key": "date2",
