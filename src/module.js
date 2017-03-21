@@ -1,7 +1,8 @@
 angular.module('angularSchemaFormUiDatepicker', [
   'ui.bootstrap',
   'schemaForm',
-  'templates'
+  'templates',
+  'pascalprecht.translate'
 ]).config(function(schemaFormDecoratorsProvider, sfBuilderProvider) {
 
   schemaFormDecoratorsProvider.defineAddOn(

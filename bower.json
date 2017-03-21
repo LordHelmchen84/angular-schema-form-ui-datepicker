@@ -26,7 +26,8 @@
     "angular-schema-form": "v1.0.0-alpha.2",
     "angular-schema-form-bootstrap": "develop",
     "bootstrap": "^3.3.7",
-    "angular-bootstrap": "^2.5.0"
+    "angular-bootstrap": "^2.5.0",
+    "angular-translate": "^2.15.1"
   },
   "resolutions": {
     "angular-schema-form": "v1.0.0-alpha.2",

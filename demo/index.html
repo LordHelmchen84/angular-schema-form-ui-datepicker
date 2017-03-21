@@ -7,6 +7,7 @@
         <!--<script src="../bower_components/angular-schema-form/dist/schema-form.min.js"></script>-->
         <script src="../bower_components/angular-schema-form-bootstrap/dist/angular-schema-form-bootstrap-bundled.min.js"></script>
         <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        <script src="../bower_components/angular-translate/angular-translate.min.js"></script>
 
         <script src="../dist/angular-schema-form-ui-datepicker.js"></script>
 
@@ -15,14 +16,14 @@
 
         <script>
 
-            angular.module('test', ["schemaForm", "angularSchemaFormUiDatepicker"]).controller('FormController', function ($scope) {
+            var app = angular.module('test', ["schemaForm", "angularSchemaFormUiDatepicker", "pascalprecht.translate"]).controller('FormController', function ($scope) {
 
                 $scope.schema = {
                     "type": "object",
                     "properties": {
                         "date": {
                             "type": "string",
-                            "title": "Date",
+                            "title": "trfzfgzjhgtzj",
                             "description": "A date",
                             "required": true
                         },
@@ -49,6 +50,8 @@
                     {
                         "type": "datepicker",
                         "key": "name",
+                        "title": "Another input",
+                        "description": "a datepicker",
                         "myOwnFormOption": "Hello world!",
                         "dateOptions": {
                             "maxDate": new Date(2017, 3, 31),
@@ -70,6 +73,19 @@
                 };
 
             });
+
+            app.config([
+                '$translateProvider',
+                function ($translateProvider) {
+                    var translations = {
+                        ANGULAR_SCHEMA_FORM_UI_DATEPICKER_CURRENT: 'heute',
+                        ANGULAR_SCHEMA_FORM_UI_DATEPICKER_CLOSE: 'ok',
+                        ANGULAR_SCHEMA_FORM_UI_DATEPICKER_CLEAR: 'leeren'
+                    };
+                    // add translation table
+                    $translateProvider.translations('de', translations).preferredLanguage('de');
+                }
+            ]);
         </script>
         <title>Testing angular-schema-form-ui-datepicker ASF addon</title>
     </head>
