@@ -1,5 +1,5 @@
 angular.module('angularSchemaFormUiDatepicker').directive('uiDatepicker', function($log, uibDateParser, $translate) {
-    var template = '<div class="input-group"><input datepicker-options="dateOptions" current-text="{{dateOptions.currentText}}" close-text="{{dateOptions.closeText}}" clear-text="{{dateOptions.clearText}}" type="text" class="form-control" uib-datepicker-popup="{{dateOptions.dateFormat}}" ng-model="ngModel" is-open="opened" ng-required="true"  /><span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button></span></div>';
+    var template = '<div class="input-group"><input datepicker-options="dateOptions" ng-change="updateModel(ngModel)" current-text="{{dateOptions.currentText}}" close-text="{{dateOptions.closeText}}" clear-text="{{dateOptions.clearText}}" type="text" class="form-control" uib-datepicker-popup="{{dateOptions.dateFormat}}" ng-model="ngModel" is-open="opened" ng-required="true"  /><span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button></span></div>';
     return {
         restrict: 'E',
         require: 'ngModel',
@@ -13,7 +13,9 @@ angular.module('angularSchemaFormUiDatepicker').directive('uiDatepicker', functi
             //$log.debug(attrs);
 
             scope.dateOptions = {
-                dateFormat: 'shortDate'
+                dateFormat: 'shortDate',
+                minDate: null,
+                maxDate: null
             };
 
             $translate('ANGULAR_SCHEMA_FORM_UI_DATEPICKER_CURRENT').then(function(current) {
@@ -38,10 +40,12 @@ angular.module('angularSchemaFormUiDatepicker').directive('uiDatepicker', functi
 
 
             //$log.debug(scope.dateOptions);
-            scope.modelValue = ngModel.$viewValue;
+            scope.modelValue = ngModel;
 
             scope.updateModel = function(modelValue) {
-                ngModel.$setViewValue(modelValue);
+                parsed = moment(modelValue).format('yyyy-MM-dd');
+                $log.debug(parsed);
+
             };
 
 

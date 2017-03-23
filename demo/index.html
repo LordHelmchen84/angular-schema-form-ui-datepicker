@@ -8,6 +8,7 @@
         <script src="../bower_components/angular-schema-form-bootstrap/dist/angular-schema-form-bootstrap-bundled.min.js"></script>
         <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
         <script src="../bower_components/angular-translate/angular-translate.min.js"></script>
+        <script src="../bower_components/moment/min/moment-with-locales.min.js"></script>
 
         <script src="../dist/angular-schema-form-ui-datepicker.js"></script>
 
@@ -53,6 +54,7 @@
                         "title": "Another input",
                         "description": "a datepicker",
                         "myOwnFormOption": "Hello world!",
+                        "placeholder": "Placeholdertest",
                         "dateOptions": {
                             "maxDate": new Date(2017, 3, 31),
                             "minDate": new Date(),
@@ -61,7 +63,8 @@
                     }, {
                         "type": "angular-schema-form-ui-datepicker",
                         "key": "date2",
-                        "myOwnFormOption": "Hello world!"
+                        "myOwnFormOption": "Hello world!",
+                        "placeholder": "Placeholdertest"
                     },
                     "anythingElse"
                 ]

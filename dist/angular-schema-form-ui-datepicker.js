@@ -1,22 +1,23 @@
-angular.module('templates', []).run(['$templateCache', function($templateCache) {$templateCache.put('src/templates/angular-schema-form-ui-datepicker.html','<div\n    class="form-group {{::form.htmlClass + \' \' + idClass}} schema-form-ui-datepicker"\n    ng-class="{\'has-error\': form.disableErrorState !== true && hasError(), \'has-success\': form.disableSuccessState !== true && hasSuccess(), \'has-feedback\': form.feedback !== false}">\n    <!-- Surrounding DIV for sfField builder to add a sfField directive to. -->\n\n    <!-- Create your own form options -->\n    <label class="control-label {{::form.labelHtmlClass}}" ng-class="{\'sr-only\': !showTitle()}" for="{{::fieldId(true, false)}}">{{form.title}}</label>\n\n    <ui-datepicker datepicker-options="{{form.dateOptions}}" datename="{{::fieldId(true, false)}}" ng-disabled="form.readonly" sf-changed="form" ng-model="ngModel" sf-field-model schema-validate="form"></ui-datepicker>\n\n    <!-- sf-field-model let\'s the ngModel builder know that you want a ng-model that matches against the form key here -->\n    <!-- schema-validate="form" validates the form against the schema -->\n\n    <span class="help-block" sf-message="form.description"></span>\n    <!-- Description & Validation messages -->\n\n</div>\n');}]);
+angular.module('templates', []).run(['$templateCache', function($templateCache) {$templateCache.put('src/templates/angular-schema-form-ui-datepicker.html','<div\n    class="form-group {{::form.htmlClass + \' \' + idClass}} schema-form-ui-datepicker"\n    ng-class="{\'has-error\': form.disableErrorState !== true && hasError(), \'has-success\': form.disableSuccessState !== true && hasSuccess(), \'has-feedback\': form.feedback !== false}">\n    <!-- Surrounding DIV for sfField builder to add a sfField directive to. -->\n\n    <!-- Create your own form options -->\n    <label class="control-label {{::form.labelHtmlClass}}" ng-class="showTitle()" for="{{::fieldId(true, false)}}">{{form.title}}</label>\n\n    <ui-datepicker datepicker-options="{{form.dateOptions}}" datename="{{::fieldId(true, false)}}" ng-disabled="form.readonly" sf-changed="form" ng-model="ngModel" sf-field-model schema-validate="form"></ui-datepicker>\n\n    <!-- sf-field-model let\'s the ngModel builder know that you want a ng-model that matches against the form key here -->\n    <!-- schema-validate="form" validates the form against the schema -->\n\n    <span class="help-block" sf-message="form.description"></span>\n    <!-- Description & Validation messages -->\n\n</div>\n');}]);
 angular.module('angularSchemaFormUiDatepicker', [
-  'ui.bootstrap',
-  'schemaForm',
-  'templates',
-  'pascalprecht.translate'
-]).config(function(schemaFormDecoratorsProvider, sfBuilderProvider) {
+    'ui.bootstrap',
+    'schemaForm',
+    'templates',
+    'pascalprecht.translate'
+]).config(function(schemaFormProvider, schemaFormDecoratorsProvider, sfBuilderProvider) {
 
-  schemaFormDecoratorsProvider.defineAddOn(
-    'bootstrapDecorator',           // Name of the decorator you want to add to.
-    'datepicker',                      // Form type that should render this add-on
-    'src/templates/angular-schema-form-ui-datepicker.html',  // Template name in $templateCache
-    sfBuilderProvider.stdBuilders   // List of builder functions to apply.
-  );
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'datepicker', // Form type that should render this add-on
+        'src/templates/angular-schema-form-ui-datepicker.html', // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
 
 });
 
 angular.module('angularSchemaFormUiDatepicker').directive('uiDatepicker', function($log, uibDateParser, $translate) {
-    var template = '<div class="input-group"><input datepicker-options="dateOptions" current-text="{{dateOptions.currentText}}" close-text="{{dateOptions.closeText}}" clear-text="{{dateOptions.clearText}}" type="text" class="form-control" uib-datepicker-popup="{{dateOptions.dateFormat}}" ng-model="ngModel" is-open="opened" ng-required="true"  /><span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button></span></div>';
+    var template = '<div class="input-group"><input datepicker-options="dateOptions" ng-change="updateModel(modelValue)" current-text="{{dateOptions.currentText}}" close-text="{{dateOptions.closeText}}" clear-text="{{dateOptions.clearText}}" type="text" class="form-control" uib-datepicker-popup="{{dateOptions.dateFormat}}" ng-model="modelValue" is-open="opened" ng-required="true"  /><span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button></span></div>';
     return {
         restrict: 'E',
         require: 'ngModel',
@@ -30,7 +31,9 @@ angular.module('angularSchemaFormUiDatepicker').directive('uiDatepicker', functi
             //$log.debug(attrs);
 
             scope.dateOptions = {
-                dateFormat: 'shortDate'
+                dateFormat: 'shortDate',
+                minDate: null,
+                maxDate: null
             };
 
             $translate('ANGULAR_SCHEMA_FORM_UI_DATEPICKER_CURRENT').then(function(current) {
@@ -55,10 +58,10 @@ angular.module('angularSchemaFormUiDatepicker').directive('uiDatepicker', functi
 
 
             //$log.debug(scope.dateOptions);
-            scope.modelValue = ngModel.$viewValue;
+            scope.modelValue = ngModel;
 
             scope.updateModel = function(modelValue) {
-                ngModel.$setViewValue(modelValue);
+                scope.ngModel =  moment(modelValue).format('YYYY-MM-DD');
             };
 
 
