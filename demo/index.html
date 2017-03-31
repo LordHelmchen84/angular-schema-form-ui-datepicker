@@ -22,19 +22,25 @@
                 $scope.schema = {
                     "type": "object",
                     "properties": {
-                        "date": {
+                        "dateOne": {
                             "type": "string",
-                            "title": "trfzfgzjhgtzj",
-                            "description": "A date",
-                            "required": true
+                            "title": "Test",
+                            "description": "A date"
                         },
-                        "date2": {
+                        "dateTwo": {
                             "type": "string",
                             "title": "Date2",
                             "description": "Name or alias",
-                            "maxLength": 10,
-                            "minLength": 2,
-                            "required": true
+                            "required": true,
+                            "format": "datepicker"
+                        },
+                        "dateThree": {
+                            "type": "string",
+                            "title": "Test",
+                            "description": "A date",
+                            "x-schema-form": {
+                                "type": "datepicker"
+                            }
                         },
                         "anythingElse": {
                             "type": "string",
@@ -49,23 +55,23 @@
 
                 $scope.form = [
                     {
-                        "type": "datepicker",
-                        "key": "name",
+
+                        "key": "dateOne",
                         "title": "Another input",
                         "description": "a datepicker",
-                        "myOwnFormOption": "Hello world!",
                         "placeholder": "Placeholdertest",
                         "dateOptions": {
-                            "maxDate": new Date(2017, 3, 31),
-                            "minDate": new Date(),
+                            "maxDate": 'today',
+                            "minDate": '2017-03-08',
                             "dateFormat": "shortDate"
                         }
                     }, {
-                        "type": "angular-schema-form-ui-datepicker",
-                        "key": "date2",
+                        "type": "datepicker",
+                        "key": "dateTwo",
                         "myOwnFormOption": "Hello world!",
                         "placeholder": "Placeholdertest"
                     },
+                    "dateThree",
                     "anythingElse"
                 ]
                 $scope.model = {};

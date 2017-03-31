@@ -1,16 +1,25 @@
 angular.module('angularSchemaFormUiDatepicker').directive('uiDatepicker', function($log, uibDateParser, $translate) {
-    var template = '<div class="input-group"><input datepicker-options="dateOptions" ng-change="updateModel(ngModel)" current-text="{{dateOptions.currentText}}" close-text="{{dateOptions.closeText}}" clear-text="{{dateOptions.clearText}}" type="text" class="form-control" uib-datepicker-popup="{{dateOptions.dateFormat}}" ng-model="ngModel" is-open="opened" ng-required="true"  /><span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button></span></div>';
+    var template = '<div class="input-group"><input datepicker-options="dateOptions" ng-change="syncSfWithUib()" current-text="{{dateOptions.currentText}}" close-text="{{dateOptions.closeText}}" clear-text="{{dateOptions.clearText}}" type="text" class="form-control" uib-datepicker-popup="{{dateOptions.dateFormat}}" ng-model="dt" is-open="opened" ng-required="true"  /><span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button></span></div>';
     return {
         restrict: 'E',
         require: 'ngModel',
+        priority: 1,
         scope: {
             ngModel: "="
         },
-        template: template, //'<input type="text" class="form-control" ng-model="modelValue" ng-blur="updateModel(modelValue)"></input>',
-        link: function(scope, element, attrs, ngModel) {
+        template: template,
+        link: function(scope, element, attrs, ngModelController) {
 
-            //$log.debug(element);
-            //$log.debug(attrs);
+
+
+            if (attrs.datepickerOptions) {
+                attrs.datepickerOptions = angular.fromJson(attrs.datepickerOptions);
+            }
+
+            scope.dt = scope.ngModel;
+            scope.syncSfWithUib = function() {
+                scope.ngModel = moment(scope.dt).format('YYYY-MM-DD');
+            }
 
             scope.dateOptions = {
                 dateFormat: 'shortDate',
@@ -36,18 +45,18 @@ angular.module('angularSchemaFormUiDatepicker').directive('uiDatepicker', functi
                 scope.dateOptions.clearText = 'clear';
             });
 
-            scope.dateOptions = angular.merge(scope.dateOptions, angular.fromJson(attrs.datepickerOptions));
+            if (attrs.datepickerOptions.minDate === 'today') {
+                attrs.datepickerOptions.minDate = new Date();
+            } else {
+                attrs.datepickerOptions.minDate = moment(attrs.datepickerOptions.minDate, 'YYYY-MM-DD').toDate();
+            }
+            if (attrs.datepickerOptions.maxDate === 'today') {
+                attrs.datepickerOptions.maxDate = new Date();
+            } else {
+                attrs.datepickerOptions.maxDate = moment(attrs.datepickerOptions.maxDate, 'YYYY-MM-DD').toDate();
+            }
 
-
-            //$log.debug(scope.dateOptions);
-            scope.modelValue = ngModel;
-
-            scope.updateModel = function(modelValue) {
-                parsed = moment(modelValue).format('yyyy-MM-dd');
-                $log.debug(parsed);
-
-            };
-
+            scope.dateOptions = angular.merge(scope.dateOptions, attrs.datepickerOptions);
 
             scope.popupOpen = false;
             scope.openPopup = function($event) {
