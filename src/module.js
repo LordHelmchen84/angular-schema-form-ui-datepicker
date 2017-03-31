@@ -17,10 +17,10 @@ angular.module('angularSchemaFormUiDatepicker', [
         if (schema.format === 'datepicker') {
             // dirty workaround here
             if (schema['x-schema-form']) {
-                schema['x-schema-form'].type = 'datepicker';
+                schema['x-schema-form'].type = "datepicker";
             } else {
                 schema['x-schema-form'] = {
-                    type: 'datepicker'
+                    "type": "datepicker"
                 }
             }
             var f = schemaFormProvider.stdFormObj(name, schema, options);
