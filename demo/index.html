@@ -17,7 +17,7 @@
 
         <script>
 
-            var app = angular.module('test', ["schemaForm", "angularSchemaFormUiDatepicker", "pascalprecht.translate"]).controller('FormController', function ($scope) {
+            var app = angular.module('test', ["schemaForm", "angularSchemaFormUiDatepicker", "pascalprecht.translate"]).controller('FormController', function (schemaForm, $scope) {
 
                 $scope.schema = {
                     "type": "object",
@@ -25,7 +25,8 @@
                         "dateOne": {
                             "type": "string",
                             "title": "Test",
-                            "description": "A date"
+                            "description": "A date",
+                            "format": "datepicker"
                         },
                         "dateTwo": {
                             "type": "string",
@@ -48,16 +49,15 @@
                             "description": "Name or alias",
                             "maxLength": 10,
                             "minLength": 2,
-                            "required": true
+                            "required": true,
+                            "format": "foobar"
                         }
                     }
                 }
 
                 $scope.form = [
                     {
-
                         "key": "dateOne",
-                        "title": "Another input",
                         "description": "a datepicker",
                         "placeholder": "Placeholdertest",
                         "dateOptions": {
@@ -66,10 +66,7 @@
                             "dateFormat": "shortDate"
                         }
                     }, {
-                        "type": "datepicker",
-                        "key": "dateTwo",
-                        "myOwnFormOption": "Hello world!",
-                        "placeholder": "Placeholdertest"
+                        "key": "dateTwo"
                     },
                     "dateThree",
                     "anythingElse"
@@ -80,6 +77,10 @@
                     schema: angular.copy($scope.schema),
                     form: angular.copy($scope.form)
                 };
+
+                var defaults = schemaForm.defaults($scope.schema).form;
+                console.log(defaults[0].type);
+                console.log(defaults[3].type);
 
             });
 
