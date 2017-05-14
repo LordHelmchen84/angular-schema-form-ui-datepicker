@@ -5,7 +5,7 @@
         <script src="../bower_components/tv4/tv4.js"></script>
         <script src="../bower_components/objectpath/lib/ObjectPath.js"></script>
         <!--<script src="../bower_components/angular-schema-form/dist/schema-form.min.js"></script>-->
-        <script src="../bower_components/angular-schema-form-bootstrap/dist/angular-schema-form-bootstrap-bundled.min.js"></script>
+        <script src="../bower_components/angular-schema-form-bootstrap/dist/angular-schema-form-bootstrap-bundled.js"></script>
         <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
         <script src="../bower_components/angular-translate/angular-translate.min.js"></script>
         <script src="../bower_components/moment/min/moment-with-locales.min.js"></script>
@@ -17,7 +17,7 @@
 
         <script>
 
-            var app = angular.module('test', ["schemaForm", "angularSchemaFormUiDatepicker", "pascalprecht.translate"]).controller('FormController', function (schemaForm, $scope) {
+            var app = angular.module('test', ["schemaForm", "schemaForm-datePickerUI", "angularSchemaFormUiDatepicker", "pascalprecht.translate"]).controller('FormController', function (schemaForm, $scope) {
 
                 $scope.schema = {
                     "type": "object",
@@ -32,8 +32,10 @@
                             "type": "string",
                             "title": "Date2",
                             "description": "Name or alias",
-                            "required": true,
-                            "format": "datepicker"
+                            "format": "datepicker",
+                            "x-schema-form": {
+                                "title": "datepicker 2"
+                            }
                         },
                         "dateThree": {
                             "type": "string",
@@ -43,15 +45,7 @@
                                 "type": "datepicker"
                             }
                         },
-                        "anythingElse": {
-                            "type": "string",
-                            "title": "Another input",
-                            "description": "Name or alias",
-                            "maxLength": 10,
-                            "minLength": 2,
-                            "required": true,
-                            "format": "foobar"
-                        }
+                        "required": ["dateOne"]
                     }
                 }
 
@@ -60,16 +54,22 @@
                         "key": "dateOne",
                         "description": "a datepicker",
                         "placeholder": "Placeholdertest",
+                        "type": "datepicker",
+                        "copyValueTo": ["dateTwo"],
                         "dateOptions": {
                             "maxDate": 'today',
                             "minDate": '2017-03-08',
                             "dateFormat": "shortDate"
                         }
                     }, {
-                        "key": "dateTwo"
+                        "key": "dateTwo",
+                        "type": "uidatepicker",
+                        "required": false
                     },
-                    "dateThree",
-                    "anythingElse"
+                    "dateThree", {
+                        "type": "submit",
+                        "title": "OK"
+                    }
                 ]
                 $scope.model = {};
 
@@ -79,8 +79,6 @@
                 };
 
                 var defaults = schemaForm.defaults($scope.schema).form;
-                console.log(defaults[0].type);
-                console.log(defaults[3].type);
 
             });
 

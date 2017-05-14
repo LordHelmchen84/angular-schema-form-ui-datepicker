@@ -1,7 +1,11 @@
 <div
-    class="form-group {{::form.htmlClass + ' ' + idClass}} schema-form-ui-datepicker"
-    ng-class="{'has-error': form.disableErrorState !== true && hasError(), 'has-success': form.disableSuccessState !== true && hasSuccess(), 'has-feedback': form.feedback !== false}">
-    <!-- Surrounding DIV for sfField builder to add a sfField directive to. -->
+    class="form-group {{::form.htmlClass + ' schema-form-' + form.type + ' ' + idClass}} schema-form-ui-datepicker"
+    ng-class="{
+       'has-error': form.disableErrorState !== true && hasError(),
+       'has-success': form.disableSuccessState !== true && hasSuccess(),
+       'has-feedback': form.feedback !== false,
+       'required': form.required === true
+     }">
 
     <!-- Create your own form options -->
     <label class="control-label {{::form.labelHtmlClass}}" ng-class="showTitle()" for="{{::fieldId(true, false)}}">{{form.title}}</label>
@@ -10,8 +14,15 @@
 
     <!-- sf-field-model let's the ngModel builder know that you want a ng-model that matches against the form key here -->
     <!-- schema-validate="form" validates the form against the schema -->
+    <span
+        ng-if="form.feedback !== false"
+        class="form-control-feedback"
+        ng-class="evalInScope(form.feedback) || {'glyphicon': true, 'glyphicon-ok': form.disableSuccessState !== true && hasSuccess(), 'glyphicon-remove': form.disableErrorState !== true && hasError() }"
+        aria-hidden="true"></span>
 
-    <span class="help-block" sf-message="form.description"></span>
+    <span ng-if="hasError() || hasSuccess()" id="{{::fieldId(true, true) + '-status'}}" class="sr-only">{{ hasSuccess() ? '(success)' : '(error)' }}</span>
+
+    <div class="help-block" sf-message="form.description"></div>
     <!-- Description & Validation messages -->
 
 </div>
