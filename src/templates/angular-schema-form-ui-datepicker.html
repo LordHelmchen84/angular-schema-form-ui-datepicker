@@ -1,5 +1,5 @@
 <div
-    class="form-group {{::form.htmlClass + ' schema-form-' + form.type + ' ' + idClass}} schema-form-ui-datepicker"
+    class="form-group has-feedback schema-form-ui-datepicker"
     ng-class="{
        'has-error': form.disableErrorState !== true && hasError(),
        'has-success': form.disableSuccessState !== true && hasSuccess(),
@@ -8,9 +8,19 @@
      }">
 
     <!-- Create your own form options -->
-    <label class="control-label {{::form.labelHtmlClass}}" ng-class="showTitle()" for="{{::fieldId(true, false)}}">{{form.title}}</label>
+    <label class="control-label {{::form.labelHtmlClass}}" ng-class="{'sr-only': !showTitle()}" for="{{::fieldId(true, false)}}">{{form.title}}</label>
 
-    <ui-datepicker datepicker-options="{{form.dateOptions}}" datename="{{::fieldId(true, false)}}" ng-disabled="form.readonly" sf-changed="form" ng-model="ngModel" sf-field-model schema-validate="form"></ui-datepicker>
+    <ui-datepicker
+        name="{{::fieldId(true, false)}}"
+        ng-attr-placeholder="{{::form.placeholder}}"
+        id="{{::fieldId(true, false)}}"
+        datepicker-options="{{form.dateOptions}}"
+        datename="{{::fieldId(true, false)}}"
+        ng-disabled="form.readonly"
+        sf-changed="form"
+        ng-model="ngModel"
+        sf-field-model
+        schema-validate="form"></ui-datepicker>
 
     <!-- sf-field-model let's the ngModel builder know that you want a ng-model that matches against the form key here -->
     <!-- schema-validate="form" validates the form against the schema -->

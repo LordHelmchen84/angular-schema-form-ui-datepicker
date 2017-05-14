@@ -10,16 +10,20 @@ angular.module('angularSchemaFormUiDatepicker').directive('uiDatepicker', functi
         template: template,
         link: function(scope, element, attrs, ngModelController) {
 
-
-
             if (attrs.datepickerOptions) {
                 attrs.datepickerOptions = angular.fromJson(attrs.datepickerOptions);
             }
 
             scope.dt = scope.ngModel;
             scope.syncSfWithUib = function() {
-                scope.ngModel = moment(scope.dt).format('YYYY-MM-DD');
+                if (moment(scope.dt,'DD.MM.YYYY').isValid()) {
+                    scope.ngModel = moment(scope.dt).format('YYYY-MM-DD');
+                } else {
+                    scope.dt = null;
+                    scope.ngModel = scope.dt;
+                }
             }
+            scope.syncSfWithUib();
 
             scope.dateOptions = {
                 dateFormat: 'shortDate',

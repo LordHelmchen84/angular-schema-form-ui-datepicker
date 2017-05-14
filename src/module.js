@@ -7,10 +7,17 @@ angular.module('angularSchemaFormUiDatepicker', [
 
 
 
-    var sfField = sfBuilderProvider.builders.sfField;
-    var ngModel = sfBuilderProvider.builders.ngModel;
+
+    var simpleTransclusion = sfBuilderProvider.builders.simpleTransclusion;
     var ngModelOptions = sfBuilderProvider.builders.ngModelOptions;
-    var defaults = [sfField, ngModel, ngModelOptions];
+    var ngModel = sfBuilderProvider.builders.ngModel;
+    var sfField = sfBuilderProvider.builders.sfField;
+    var condition = sfBuilderProvider.builders.condition;
+    var array = sfBuilderProvider.builders.array;
+    var numeric = sfBuilderProvider.builders.numeric;
+
+
+    var defaults = [sfField, ngModelOptions, ngModel, array, condition];
     var addOn = schemaFormDecoratorsProvider.defineAddOn(
         'bootstrapDecorator', // Name of the decorator you want to add to.
         'datepicker', // Form type that should render this add-on
@@ -18,9 +25,7 @@ angular.module('angularSchemaFormUiDatepicker', [
         defaults // List of builder functions to apply.
     );
 
-
     schemaFormProvider.prependRule('string', function(name, schema, options) {
-
         if (schema.format === 'datepicker') {
             // dirty workaround here
 
@@ -40,5 +45,6 @@ angular.module('angularSchemaFormUiDatepicker', [
             return f;
         }
     });
+
 
 });
