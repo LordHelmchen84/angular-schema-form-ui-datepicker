@@ -71,8 +71,8 @@ angular.module('angularSchemaFormUiDatepicker').directive('uiDatepicker', functi
                 if (moment(scope.dt,'DD.MM.YYYY').isValid()) {
                     scope.ngModel = moment(scope.dt).format('YYYY-MM-DD');
                 } else {
-                    scope.dt = null;
-                    scope.ngModel = scope.dt;
+                    scope.dt = undefined;
+                    scope.ngModel = undefined;
                 }
             }
             scope.syncSfWithUib();
