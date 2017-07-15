@@ -71,12 +71,17 @@
                         "title": "OK"
                     }
                 ]
+
                 $scope.model = {};
 
                 $scope.debug = {
                     schema: angular.copy($scope.schema),
                     form: angular.copy($scope.form)
                 };
+
+                $scope.$on('sf-render-finished', function (event, data) {
+                    $scope.model = angular.merge({}, $scope.model, {"dateOne": "2017-07-03"});
+                });
 
                 var defaults = schemaForm.defaults($scope.schema).form;
 
