@@ -17,7 +17,10 @@ angular.module('angularSchemaFormUiDatepicker').directive('uiDatepicker', functi
             ngModel.$formatters.push(function(value){
               if(value){
                 scope.dt = moment(value).toDate();
-              };
+              }else{
+                scope.dt = undefined;
+                scope.ngModel = undefined;
+              }
 
             });
 
