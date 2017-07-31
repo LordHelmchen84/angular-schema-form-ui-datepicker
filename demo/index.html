@@ -81,11 +81,19 @@
                     form: angular.copy($scope.form)
                 };
 
+                var mergeDate = {
+                    "dateOne": "2017-09-03"
+                };
+
                 $scope.$on('sf-render-finished', function (event, data) {
-                    $scope.model = angular.merge({}, $scope.model, {"dateOne": "2017-07-03"});
+                    if (!$scope.initialRenderFinished) {
+                        $scope.initialRenderFinished = true;
+                        $scope.model = angular.merge({}, $scope.model, mergeDate);
+                        //$scope.$broadcast('schemaFormRedraw');
+                    }
                 });
 
-                var defaults = schemaForm.defaults($scope.schema).form;
+                //var defaults = schemaForm.defaults($scope.schema).form;
 
             });
 
